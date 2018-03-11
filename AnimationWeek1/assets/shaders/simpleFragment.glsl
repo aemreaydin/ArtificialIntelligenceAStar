@@ -31,6 +31,8 @@ uniform sampler2D texture_specular1;
 uniform sampler2D texture_normal1;
 uniform sampler2D texturje_height;
 
+uniform int diffuse2;
+
 vec3 calcDirectionalLight(sLight light, vec3 normal, vec3 viewDir, vec4 textureCol);
 vec3 calcPointLight(sLight light, vec3 normal, vec3 objPosition, vec3 viewDir, vec4 textureCol);
 vec3 calcSpotLight(sLight light, vec3 normal, vec3 objPosition, vec3 viewDir, vec4 textureCol);
@@ -40,9 +42,12 @@ void main()
 {    
 	vec3 norm = normalize(Normal);
 	vec3 viewDir = normalize(eyePos - ObjectPosition);
-	vec4 textureColor = (texture(texture_diffuse1, TexCoords));
-						//+ texture(texture_specular1, TexCoords));
-						//+ texture(texture_normal1, TexCoords));
+	vec4 textureColor = texture(texture_diffuse1, TexCoords);
+	
+	if(diffuse2 == 1)
+	{
+		textureColor = texture(texture_diffuse2, TexCoords);
+	}
 						
 	vec3 result = vec3(0.0, 0.0, 0.0);
 	for(int i = 0; i < NumLights; i++)
